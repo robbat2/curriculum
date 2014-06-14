@@ -309,3 +309,117 @@ want to know to which package it belongs:
    bash-4.0$ dpkg-query -S /usr/bin/dstat
    dstat: /usr/bin/dstat
 
+
+emerge (Gentoo, Funtoo)
+========================
+
+In the following examples, we will be using the package ``sys-apps/dstat`` in our examples. The
+process however applies to any software you may want to install.
+
+If your Linux distribution uses emerge, you can search for packages matching the name of ``dstat``
+by running:
+
+.. code-block:: console
+
+   bash-4.0$ emerge --search dstat
+   dstat - versatile resource statistics tool
+   Searching...    
+   [ Results for search key : dstat ]
+   [ Applications found : 1 ]
+   *  sys-apps/dstat
+         Latest version available: 0.7.2-r1
+         Latest version installed: [ Not Installed ]
+         Size of files: 83 kB
+         Homepage:      http://dag.wieers.com/home-made/dstat/
+         Description:   Versatile replacement for vmstat, iostat and ifstat
+         License:       GPL-2
+ 
+If you want to search the description instead, you should use ``emerge --searchdesc``
+
+Installing packages
+-------------------
+
+You can install a package through emerge, by running:
+
+.. code-block:: console
+
+   bash-4.0# emerge dstat
+   Calculating dependencies... done!
+   >>> Verifying ebuild manifests
+   >>> Emerging (1 of 1) sys-apps/dstat-0.7.2-r1
+   ...
+   >>> Installing (1 of 1) sys-apps/dstat-0.7.2-r1
+   >>> Recording sys-apps/dstat in "world" favorites file...
+   >>> Auto-cleaning packages...
+   >>> No outdated packages were found on your system.
+
+Upgrading packages
+------------------
+
+emerge makes it easy to upgrade existing packages, too.
+Over time, new packages may be added to the repositories that are configured
+on your system, or you may have a newer version for an already installed package.
+
+To upgrade using apt, when a newer package is available, simply ask emerge to
+install it again,
+
+.. code-block:: console
+
+   bash-4.0# emerge dstat
+
+To only upgrade it if needed, add ``-u``
+
+.. code-block:: console
+
+   bash-4.0# emerge -u dstat
+
+Uninstalling packages
+---------------------
+
+To uninstall a package using emerge, run:
+
+.. code-block:: console
+
+   bash-4.0# emerge --unmerge dstat
+
+With emerge, removing a package still leaves behind any configuration
+files, in case you wish to reinstall the package again later. Unlike apt or DPKG, there is no automatic removal.
+
+Querying the emerge database
+--------------------------
+
+Ocassionally you will want to find out specific information regarding installed
+packages, the base portage package does not include most of these commands.
+Instead, the ``app-portage/portage-utils`` and ``app-portage/gentoolkit`` packages 
+have many commands to help.  Let's take a look at a few examples:
+
+TODO: describe commands from gentoolkit
+
+One common task is to see if you have a package installed. The ``TODO`` option
+by itself will list ALL installed packages. You can also ask it to list specific
+packages if they are installed:
+
+.. code-block:: console
+   bash-4.0$ equery l dstat
+   * Searching for dstat ...
+   [IP-] [  ] sys-apps/dstat-0.7.2-r1:0
+   
+Now let's say we want to list all of the files installed by a package. The
+``-L`` option is the one to use:
+
+.. code-block:: console
+
+   bash-4.0$ qlist dstat
+   /usr/share/dstat/dstat_nfsd3.py
+   /usr/share/dstat/dstat_vmk_hba.py
+   /usr/share/dstat/dstat_dbus.py
+   ...
+
+We can also do the reverse of the previous operation. If we have a file, and
+want to know to which package it belongs:
+
+.. code-block:: console
+
+   bash-4.0$ qfile /usr/share/dstat/dstat_nfsd3.py
+   sys-apps/dstat (/usr/share/dstat/dstat_nfsd3.py)
+
